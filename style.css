@@ -10,10 +10,10 @@
   margin: 0;
 }
 :root{
-  --pink: #ff74a4;
-  --violet: #9f6ea3;
-  --lightblack: #515C6F;
-  --white: #ffffff;
+  --pink: #9f6ea3;
+  --violet: #4a3e4d;
+  --lightblack: #b5c6e3;
+  --white: #190e1b;
   --darkwhite: #cecaca;
   --pinkshadow: #ffcbdd;
   --lightbshadow: rgba(0,0,0,0.15);
@@ -26,7 +26,7 @@ body{
   background: linear-gradient(var(--pink) 0%, var(--violet) 100%);
 }
 .wrapper{
-  width: 380px;
+  width: 400px;
   padding: 25px 30px;
   overflow: hidden;
   position: relative;
