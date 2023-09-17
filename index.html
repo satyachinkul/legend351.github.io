@@ -13,16 +13,23 @@
   <div class="wrapper">
     <div class="top-bar">
       <i class="material-icons"></i>
-      <span>Now Playing</span>
-      <i class="material-icons"></i>
+        <!-- <span class="marquee">:-- Classic Bollywood Hits from 60s, 70s, 80s, and 90s | Carvaan Mini Legends 351 --:</span> -->
+        <div class="marquee">
+          <p>:-- Classic Bollywood Hits from 60s, 70s, 80s, and 90s | Carvaan Mini Legends 351 --:</p>
+        </div>
+
+      <i id="fullscreentoggle" class="material-icons"></i>
     </div>
-    <div class="img-area">
-      <img src="" alt="">
-    </div>
-    <div class="song-details">
-      <p class="name"></p>
-      <p class="artist"></p>
-    </div>
+
+
+      <div class="img-area">
+        <img src="" alt="">
+      </div>
+      <div class="song-details">
+        <p class="name"></p>
+        <p class="artist"></p>
+      </div>
+
     <div class="progress-area">
       <div class="progress-bar">
         <audio id="main-audio" src=""></audio>
@@ -49,7 +56,7 @@
         </div>
         <i id="close" class="material-icons">close</i>
       </div>
-      <ul>
+      <ul id="music_List">
         <!-- here li list are coming from js -->
       </ul>
     </div>

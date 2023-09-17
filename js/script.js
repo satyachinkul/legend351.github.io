@@ -1,3 +1,48 @@
+// function fullscreentoggle(){
+//   const fullscreenbtn = wrapper.querySelector("#fullscreentoggle");
+//   if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+//     // The document is not in fullscreen mode, so request fullscreen
+//     if (document.documentElement.requestFullscreen) {
+//       document.documentElement.requestFullscreen();
+//     } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+//       document.documentElement.mozRequestFullScreen();
+//     } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
+//       document.documentElement.webkitRequestFullscreen();
+//     } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+//       document.documentElement.msRequestFullscreen();
+//     }
+//     fullscreenbtn.innerText = "close_fullscreen";
+//     const imgElement = document.querySelector('.img-area');
+//     imgElement.classList.add('android-specific');
+    
+// } 
+// else {
+//   // The document is in fullscreen mode, so exit fullscreen
+//   if (document.exitFullscreen) {
+//     document.exitFullscreen();
+//   } else if (document.mozCancelFullScreen) { // Firefox
+//     document.mozCancelFullScreen();
+//   } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
+//     document.webkitExitFullscreen();
+//   } else if (document.msExitFullscreen) { // IE/Edge
+//     document.msExitFullscreen();
+//   }
+//   fullscreenbtn.innerText = "fullscreen";
+// }
+// }
+
+function isAndroid() {
+  return /Android/.test(navigator.userAgent);
+}
+
+const imgElement = document.querySelector('.img-area');
+
+if (isAndroid()) {
+  imgElement.classList.add('android-specific');
+}
+
+
+
 const wrapper = document.querySelector(".wrapper"),
 musicImg = wrapper.querySelector(".img-area img"),
 musicName = wrapper.querySelector(".song-details .name"),
@@ -14,7 +59,6 @@ closemoreMusic = musicList.querySelector("#close");
 
 let musicIndex = Math.floor((Math.random() * allMusic.length) + 1);
 isMusicPaused = true;
-
 window.addEventListener("load", ()=>{
   loadMusic(musicIndex);
   playingSong(); 
@@ -71,12 +115,51 @@ playPauseBtn.addEventListener("click", ()=>{
 
 //prev music button event
 prevBtn.addEventListener("click", ()=>{
-  prevMusic();
+  let getText = repeatBtn.innerText; //getting this tag innerText
+  switch(getText){
+    case "repeat":
+      prevMusic();
+      break;
+    case "repeat_one":
+      prevMusic();
+      break;
+    case "shuffle":
+        let randIndex = Math.floor((Math.random() * allMusic.length) + 1); //genereting random index/numb with max range of array length
+      do{
+        randIndex = Math.floor((Math.random() * allMusic.length) + 1);
+      }while(musicIndex == randIndex); //this loop run until the next random number won't be the same of current musicIndex
+      musicIndex = randIndex; //passing randomIndex to musicIndex
+      loadMusic(musicIndex);
+      playMusic();
+      playingSong();
+      break;
+      
+  }
 });
 
 //next music button event
 nextBtn.addEventListener("click", ()=>{
-  nextMusic();
+  let getText = repeatBtn.innerText; //getting this tag innerText
+  switch(getText){
+    case "repeat":
+      nextMusic(); //calling nextMusic function
+      break;
+    case "repeat_one":
+      nextMusic(); //calling nextMusic function
+      break;
+    case "shuffle":
+      let randIndex = Math.floor((Math.random() * allMusic.length) + 1); //genereting random index/numb with max range of array length
+
+        do{
+          randIndex = Math.floor((Math.random() * allMusic.length) + 1);
+        }while(musicIndex == randIndex); //this loop run until the next random number won't be the same of current musicIndex
+        musicIndex = randIndex; //passing randomIndex to musicIndex
+        loadMusic(musicIndex);
+        playMusic();
+        playingSong();
+        break;
+      
+  }
 });
 
 // update progress bar width according to music current time
@@ -165,41 +248,66 @@ mainAudio.addEventListener("ended", ()=>{
   }
 });
 
+function delay(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+async function scrollToItem(musicIndex) {
+  const list = document.getElementById('music_List');
+  let listItem;
+  if (isAndroid()) {
+    await delay(130);;
+  }
+  else{
+    await delay(200);
+  }
+  
+  if(musicIndex<2){
+   listItem = list.querySelectorAll('li')[musicIndex-1];
+  }
+  else{
+    listItem = list.querySelectorAll('li')[musicIndex-2];
+  }
+  if (listItem) {
+    listItem.scrollIntoView({ behavior: 'instant' });
+  }
+
+}
+
 //show music list onclick of music icon
 moreMusicBtn.addEventListener("click", ()=>{
   musicList.classList.toggle("show");
+  scrollToItem(musicIndex);
+
+
+  
 });
 closemoreMusic.addEventListener("click", ()=>{
-  moreMusicBtn.click();
+  musicList.classList.toggle("show");
 });
-
+var track_name_without_space;
 const ulTag = wrapper.querySelector("ul");
 // let create li tags according to array length for list
+
 for (let i = 0; i < allMusic.length; i++) {
   //let's pass the song name, artist from the array
-  let track_name_without_space = allMusic[i].src.replace(/\s+/g, '');
+  track_name_without_space = allMusic[i].src.replace(/\s+/g, '');
   let liTag = `<li li-index="${i + 1}">
                 <div class="row">
                   <span>${allMusic[i].name}</span>
                   <p>${allMusic[i].artist}</p>
                 </div>
                 <span id="${track_name_without_space}" class="audio-duration">3:40</span>
-                <audio class="${track_name_without_space}" src="songs/${allMusic[i].src}.mp3" preload="none"></audio>
+                <audio class="${track_name_without_space}" src="songs/${allMusic[i].src}.mp3" preload=none></audio>
               </li>`;
   ulTag.insertAdjacentHTML("beforeend", liTag); //inserting the li inside ul tag
 
   let liAudioDuartionTag = ulTag.querySelector(`#${track_name_without_space}`);
-  let liAudioTag = ulTag.querySelector(`.${track_name_without_space}`);
-  liAudioTag.addEventListener("loadeddata", ()=>{
-    let duration = liAudioTag.duration;
-    let totalMin = Math.floor(duration / 60);
-    let totalSec = Math.floor(duration % 60);
-    if(totalSec < 10){ //if sec is less than 10 then add 0 before it
-      totalSec = `0${totalSec}`;
-    };
-    liAudioDuartionTag.innerText = `${totalMin}:${totalSec}`; //passing total duation of song
-    liAudioDuartionTag.setAttribute("t-duration", `${totalMin}:${totalSec}`); //adding t-duration attribute with total duration value
-  });
+  liAudioDuartionTag.innerText = `${allMusic[i].song_duration}`; //passing total duation of song
+  liAudioDuartionTag.setAttribute("t-duration", `${allMusic[i].song_duration}`); //adding t-duration attribute with total duration value
+ 
 }
 
 //play particular song from the list onclick of li tag

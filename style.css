@@ -22,21 +22,29 @@ body{
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  background: linear-gradient(var(--pink) 0%, var(--violet) 100%);
+  background: var(--white);
 }
+
+
 .wrapper{
-  width: 400px;
+  width: 100%;
+  height: 100%;
   padding: 25px 30px;
   overflow: hidden;
   position: relative;
-  border-radius: 15px;
   background: var(--white);
   box-shadow: 0px 6px 15px var(--lightbshadow);
 }
 .wrapper i{
   cursor: pointer;
 }
+
+.top-bar{
+  margin-bottom: 1em;
+}
+
+
+
 .top-bar, .progress-area .song-timer, 
 .controls, .music-list .header, .music-list ul li{
   display: flex;
@@ -57,20 +65,31 @@ body{
 }
 .img-area{
   width: 100%;
-  height: 256px;
+  border: 5px solid #f9e1fd;
+  height: 270px;
   overflow: hidden;
   margin-top: 25px;
   border-radius: 15px;
-  box-shadow: 0px 6px 12px var(--lightbshadow);
 }
+
+.android-specific {
+  /* Your Android-specific styles here */
+  height: 350px;
+}
+
 .img-area img{
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 .song-details{
+  height: 100px;
   text-align: center;
   margin: 30px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
 }
 .song-details p{
   color: var(--lightblack);
@@ -117,14 +136,14 @@ body{
   pointer-events: auto;
 }
 .progress-area .song-timer{
-  margin-top: 2px;
+  margin-top: 1em;
 }
 .song-timer span{
   font-size: 13px;
   color: var(--lightblack);
 }
 .controls{
-  margin: 40px 0 5px 0;
+  margin: 50px 0 5px 0;
 }
 .controls i{
   font-size: 28px;
@@ -242,4 +261,55 @@ ul li .audio-duration{
 ul li.playing{
   pointer-events: none;
   color: var(--violet);
+}
+
+
+
+
+
+.marquee {
+width: 100%;
+font-size: 18px;
+color: var(--lightblack);
+white-space: nowrap;
+overflow: hidden;
+}
+.marquee p {
+display: inline-block;
+padding-left: 100%;
+animation: marquee 15s linear infinite;
+}
+@keyframes marquee {
+0%   { transform: translate(0, 0); }
+100% { transform: translate(-100%, 0); }
+}
+
+
+@media (min-width: 768px) {
+  body{
+    background:#482d4f;
+    align-items: center;
+    height: 100vh;
+  }
+  .wrapper{
+    width: 30%;
+    height: 550px;
+    border-radius: 14px;
+    box-shadow: 0px 0px 10px rgb(143, 143, 143)
+    /* box-shadow: 5px 5px 5px #78787877; */
+  }
+  .marquee {
+    font-size: 15px;
+    }
+
+    .img-area{
+      height: 200px;
+      width: 200x;
+      border: 3px solid #f9e1fd;
+      margin-top: 10px;
+      margin-left: auto; /* Center horizontally by setting left margin to auto */
+      margin-right: auto; 
+      border-radius: 9px;
+     
+    }
 }
