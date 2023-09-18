@@ -341,3 +341,11 @@ function clicked(element){
   playMusic();
   playingSong();
 }
+
+window.onload = function() {
+  // Delay the scroll by a short amount of time (e.g., 100 milliseconds)
+  setTimeout(function() {
+    // Scroll to the bottom of the page
+    window.scrollTo(0, document.body.scrollHeight);
+  }, 100); // Adjust the delay as needed
+};
